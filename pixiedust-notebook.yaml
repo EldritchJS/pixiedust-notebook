@@ -1,0 +1,72 @@
+kind: Template
+apiVersion: v1
+template: pixiedust-notebook
+metadata:
+  name: pixiedust-notebook
+objects:
+
+- kind: Service
+  apiVersion: v1
+  metadata:
+    name: ${APPNAME}
+    labels:
+      name: ${APPNAME}
+  spec:
+    ports:
+      - protocol: TCP
+        port: 8888
+        targetPort: 8888
+    selector:
+      name: ${APPNAME}
+
+- kind: Route
+  apiVersion: v1
+  metadata:
+    name: ${APPNAME}
+  spec:
+    host: ${ROUTE_HOSTNAME}
+    to:
+      kind: Service
+      name: ${APPNAME}
+
+- kind: DeploymentConfig
+  apiVersion: v1
+  metadata:
+    name: ${APPNAME}
+  spec:
+    strategy:
+      type: Rolling
+    triggers:
+      - type: ConfigChange
+    replicas: 1
+    selector:
+      name: ${APPNAME}
+    template:
+      metadata:
+        labels:
+          name: ${APPNAME}
+      spec:
+        containers:
+          - name: ${APPNAME}
+            image: ${IMAGE}
+            ports:
+              - containerPort: 8888
+                protocol: TCP
+            env:
+              - name: JUPYTER_NOTEBOOK_PASSWORD
+                value: ${NOTEBOOK_PASSWORD}
+
+parameters:
+  - name: APPNAME
+    description: the application name
+    value: pixiedust-notebook
+  - name: ROUTE_HOSTNAME
+    description: a hostname for the route
+  - name: IMAGE
+    description: notebook image to load
+    required: true
+    value: docker.io/eldritchjs/pixiedust-notebook
+  - name: NOTEBOOK_PASSWORD
+    description: Password for the notebook
+    required: true
+    value: changeme

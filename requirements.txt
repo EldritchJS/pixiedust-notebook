@@ -1,0 +1,8 @@
+nltk
+vaderSentiment
+psycopg2
+infinispan
+bokeh
+pyyaml
+pixiedust
+
