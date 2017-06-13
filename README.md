@@ -6,13 +6,13 @@ I wanted to check out Pixiedust and consider its utility for my data science wor
 
 # Usage
 
-1. Issue these commands from the command line (assuming you cloned/forked the repo already)
+1. Issue these commands from the command line (assuming you cloned/forked the repo already and have OpenShift set up)
 
 `oc cluster up`
 
 `oc new-app pixiedust-notebook.yaml`
 
-2. Using a browser, go to the route created by the new-app command (localhost:8443 to get to the OpenShift console, then MyProject, then you'll see a URL for pixiedust-notebook towards teh upper right)
+2. Using a browser, go to the route created by the new-app command (localhost:8443 to get to the OpenShift console, then MyProject, then you'll see a URL for pixiedust-notebook towards the upper right)
 
 3. When prompted for a password, the default is changeme. 
 
