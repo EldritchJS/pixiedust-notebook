@@ -58,6 +58,9 @@ RUN yum install -y curl wget java-headless bzip2 gnupg2 sqlite3 \
     && conda remove --quiet --yes --force qt pyqt \
     && conda remove --quiet --yes --force --feature mkl ; conda clean -tipsy
 
+RUN wget https://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo \
+	&& sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo \
+	&& yum install -y apache-maven
 
 ENV PATH /opt/conda/bin:$PATH
 
@@ -106,6 +109,8 @@ RUN chmod +x /tini /start.sh
 
 ENV HOME /home/$NB_USER
 USER $NB_UID
+COPY spark-streaming-amqp_2.11-0.1.0.jar /home/$NB_USER/
+COPY spark-streaming-amqp_2.11-0.1.0.jar /notebooks
 WORKDIR /notebooks
 
 ENTRYPOINT ["/tini", "--"]

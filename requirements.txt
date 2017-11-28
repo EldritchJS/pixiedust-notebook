@@ -5,4 +5,8 @@ infinispan
 bokeh
 pyyaml
 pixiedust
+stomp.py
+amqp
+amqplib
+python-qpid-proton
 
