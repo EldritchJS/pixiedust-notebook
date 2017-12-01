@@ -9,4 +9,5 @@ stomp.py
 amqp
 amqplib
 python-qpid-proton
+infinispan
 
