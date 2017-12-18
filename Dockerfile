@@ -17,7 +17,7 @@ ENV PYTHONIOENCODING UTF-8
 ENV CONDA_DIR /opt/conda
 ENV NB_USER=nbuser
 ENV NB_UID=1011
-ENV NB_PYTHON_VER=2.7
+ENV NB_PYTHON_VER=3.6
 
 COPY requirements.txt /tmp/
 
@@ -32,14 +32,14 @@ RUN yum install -y curl wget java-headless bzip2 gnupg2 sqlite3 \
     && export PATH=/opt/conda/bin:$PATH \
     && yum install -y gcc gcc-c++ glibc-devel git \
     && /opt/conda/bin/conda install --quiet --yes python=$NB_PYTHON_VER 'nomkl' \
-			    'ipywidgets=5.2*' \
-			    'matplotlib=1.5*' \
-			    'scipy=0.17*' \
-			    'seaborn=0.7*' \
-			    'cloudpickle=0.1*' \
+			    'ipywidgets' \
+			    'matplotlib' \
+			    'scipy' \
+			    'seaborn' \
+			    'cloudpickle' \
 			    statsmodels \
 			    pandas \
-			    'dill=0.2*' \
+			    'dill' \
 			    notebook \
 			    jupyter \
     && /opt/conda/bin/conda install jupyter_dashboards -c conda-forge \
@@ -109,8 +109,10 @@ RUN chmod +x /tini /start.sh
 
 ENV HOME /home/$NB_USER
 USER $NB_UID
-COPY spark-streaming-amqp_2.11-0.1.0.jar /home/$NB_USER/
-COPY spark-streaming-amqp_2.11-0.1.0.jar /notebooks
+COPY amqp.py /notebooks
+COPY amqp.py /home/$NB_USER/
+COPY spark-streaming-amqp_2.11-0.3.2-SNAPSHOT.jar /home/$NB_USER/
+COPY spark-streaming-amqp_2.11-0.3.2-SNAPSHOT.jar /notebooks
 WORKDIR /notebooks
 
 ENTRYPOINT ["/tini", "--"]

@@ -2,7 +2,7 @@ nltk
 vaderSentiment
 psycopg2
 infinispan
-bokeh
+bokeh==0.12.6
 pyyaml
 pixiedust
 stomp.py
