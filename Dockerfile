@@ -17,7 +17,7 @@ ENV PYTHONIOENCODING UTF-8
 ENV CONDA_DIR /opt/conda
 ENV NB_USER=nbuser
 ENV NB_UID=1011
-ENV NB_PYTHON_VER=3.6
+ENV NB_PYTHON_VER=2.7
 
 COPY requirements.txt /tmp/
 
@@ -109,6 +109,10 @@ RUN chmod +x /tini /start.sh
 
 ENV HOME /home/$NB_USER
 USER $NB_UID
+COPY remotecache.py /home/$NB_USER
+COPY remotecache.py /notebooks
+COPY unsigned.py /home/$NB_USER
+COPY unsigned.py /noteboooks
 COPY amqp.py /notebooks
 COPY amqp.py /home/$NB_USER/
 COPY spark-streaming-amqp_2.11-0.3.2-SNAPSHOT.jar /home/$NB_USER/
