@@ -107,6 +107,7 @@ ADD start.sh /start.sh
 
 RUN chmod +x /tini /start.sh
 
+
 ENV HOME /home/$NB_USER
 USER $NB_UID
 COPY remotecache.py /home/$NB_USER
@@ -115,8 +116,15 @@ COPY unsigned.py /home/$NB_USER
 COPY unsigned.py /noteboooks
 COPY amqp.py /notebooks
 COPY amqp.py /home/$NB_USER/
-COPY spark-streaming-amqp_2.11-0.3.2-SNAPSHOT.jar /home/$NB_USER/
-COPY spark-streaming-amqp_2.11-0.3.2-SNAPSHOT.jar /notebooks
+COPY spark-streaming-amqp_2.11-0.3.2-SNAPSHOT.jar $SPARK_HOME/jars
+
+WORKDIR /home/$NB_USER
+RUN pip wheel infinispan -w . \
+&& mv infinispan*.whl infinispan.zip
+
+RUN pip wheel psycopg2 -w . \
+&& mv psycopg2*.whl psycopg2.zip
+
 WORKDIR /notebooks
 
 ENTRYPOINT ["/tini", "--"]
